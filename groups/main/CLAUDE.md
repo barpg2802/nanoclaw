@@ -75,6 +75,55 @@ Key paths inside the container:
 
 ---
 
+## Git & Code Execution
+
+You have access to git and can run code inside your containerized environment.
+
+### Available Commands
+- **git**: Clone, pull, commit, push (public repos only)
+- **node/npm**: Run JavaScript/TypeScript code
+- **Bash**: Execute any shell commands
+
+### Workspace Directories
+
+| Directory | Purpose | Persistence |
+|-----------|---------|-------------|
+| `/workspace/repos/` | Clone git repos here | Ephemeral (per-session) |
+| `/workspace/project` | Main project root | Persistent |
+| `/workspace/group` | Your group folder | Persistent |
+
+### Example Usage
+
+**Clone and analyze a repository**:
+```bash
+cd /workspace/repos
+git clone https://github.com/user/repo.git
+cd repo
+npm install
+npm test
+```
+
+**Run code from a file**:
+```bash
+node /workspace/group/myscript.js
+npm run build
+```
+
+**Check code quality**:
+```bash
+cd /workspace/repos/myproject
+git log --oneline -10
+git diff main..feature-branch
+npx eslint src/
+```
+
+### Limitations
+- Only public repositories (no authentication configured)
+- Repos in `/workspace/repos/` are deleted when container exits
+- For persistent repos, use `/workspace/project` or `/workspace/group`
+
+---
+
 ## Managing Groups
 
 ### Finding Available Groups
